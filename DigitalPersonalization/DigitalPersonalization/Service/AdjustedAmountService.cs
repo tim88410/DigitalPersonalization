@@ -1,4 +1,6 @@
-﻿namespace DigitalPersonalization.Service
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace DigitalPersonalization.Service
 {
     public interface IAdjustedAmountService
     {
@@ -10,11 +12,11 @@
         {
             //API 回傳"金額資訊"
             //利率 為 0.33
-            //金額資訊應為 金額 + 金額 * 利率 0.33;
+            //金額資訊應為 金額 + 金額 * 利率 0.33
+            //四捨五入到小數點後第五位(因測試範例有-0.005)
             double rate = 1 + 0.33;
-
             return amountList
-                .Select(s => parseDouble(s) * rate)
+                .Select(s => Math.Round(parseDouble(s) * rate, 5))
                 .OrderByDescending(o => o)
                 .ToList();
         }
